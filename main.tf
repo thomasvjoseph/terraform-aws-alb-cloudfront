@@ -1,11 +1,3 @@
-module "alb" {
-  source = "../terraform-aws-lb"
-
-  vpc_id       = module.vpc.vpc_id
-  subnets      = module.vpc.private_subnets
-  lb_resources = local.lb_resources
-}
-
 resource "aws_cloudfront_vpc_origin" "this" {
   for_each = local.cloudfront_resources
 
@@ -54,9 +46,9 @@ resource "aws_cloudfront_distribution" "this" {
     compress                 = each.value.compress
     cache_policy_id          = each.value.cache_policy_id
     origin_request_policy_id = each.value.origin_request_policy_id
-    min_ttl                  = each.value.min_ttl
-    default_ttl              = each.value.default_ttl
-    max_ttl                  = each.value.max_ttl
+    min_ttl                  = each.value.cache_policy_id == null ? each.value.min_ttl : null
+    default_ttl              = each.value.cache_policy_id == null ? each.value.default_ttl : null
+    max_ttl                  = each.value.cache_policy_id == null ? each.value.max_ttl : null
 
     dynamic "forwarded_values" {
       for_each = each.value.cache_policy_id == null ? [1] : []
