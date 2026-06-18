@@ -69,3 +69,9 @@
 | <a name="output_vpc_origin_arn"></a> [vpc\_origin\_arn](#output\_vpc\_origin\_arn) | CloudFront VPC origin ARNs. |
 | <a name="output_vpc_origin_id"></a> [vpc\_origin\_id](#output\_vpc\_origin\_id) | CloudFront VPC origin IDs. |
 <!-- END_TF_DOCS -->
+
+## Author: 
+
+thomas joseph
+- [linkedin](https://www.linkedin.com/in/thomasvjoseph/)
+- [medium](https://medium.com/@thomasvjoseph)
