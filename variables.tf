@@ -59,6 +59,44 @@ variable "lb_resources" {
   }))
 }
 
+variable "ecs_resources" {
+  description = "ECS service definitions. Keys must match lb_resources. Security groups, target group ARNs, and subnets are managed internally."
+  type = map(object({
+    ecs_cluster_name                  = string
+    ecs_task_def_family               = string
+    ecs_task_def_network_mode         = string
+    ecs_task_requires_compatibilities = list(string)
+    ecs_os_family                     = optional(string, "LINUX")
+    ecs_cpu_architecture              = optional(string, "X86_64")
+    ecs_task_def_cpu                  = number
+    ecs_task_def_memory               = number
+    ecs_task_def_task_role_arn        = optional(string, null)
+    ecs_task_def_execution_role_arn   = string
+    ecs_task_def_container_name       = string
+    ecs_image_url                     = string
+    ecs_container_cpu                 = optional(number, null)
+    ecs_container_memory_reservation  = optional(number, null)
+    ecs_task_def_container_port       = optional(number, null)
+    ecs_task_def_host_port            = optional(number, null)
+    ecs_awslogs_group                 = string
+    aws_region                        = string
+    ecs_service_name                  = string
+    ecs_launch_type                   = string
+    ecs_service_container_name        = string
+    ecs_service_container_port        = number
+    desired_count                     = optional(number, 1)
+    enable_autoscaling                = optional(bool, false)
+    enable_cpu_autoscaling            = optional(bool, false)
+    enable_memory_autoscaling         = optional(bool, false)
+    asg_max_size                      = optional(number, 2)
+    asg_min_size                      = optional(number, 1)
+    cpu_target_value                  = optional(number, 70)
+    memory_target_value               = optional(number, 85)
+    tags                              = optional(map(string), {})
+  }))
+  default = {}
+}
+
 variable "cloudfront_resources" {
   description = "CloudFront VPC origin and distribution settings. Keys must match lb_resources."
   type = map(object({

@@ -18,10 +18,20 @@ locals {
     )
   }
 
+  ecs_resources = {
+    for key, ecs in var.ecs_resources : key => merge(ecs, {
+      ecs_security_group   = [module.ecs_security_group[key].security_group_id]
+      ecs_target_group_arn = module.alb.target_group_arn[key]
+      subnet_ids           = module.vpc.private_subnets
+      assign_public_ip     = false
+    })
+  }
+
   lb_resources = {
     for key, lb in var.lb_resources : key => merge(lb, {
       lb_security_group = [module.alb_security_group[key].security_group_id]
       internal          = coalesce(lb.internal, true)
+      subnets           = coalesce(lb.internal, true) ? module.vpc.private_subnets : module.vpc.public_subnets
     })
   }
 }

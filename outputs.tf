@@ -62,3 +62,23 @@ output "cloudfront_hosted_zone_id" {
   description = "Route 53 hosted zone IDs for CloudFront distributions."
   value       = { for k, v in aws_cloudfront_distribution.this : k => v.hosted_zone_id }
 }
+
+output "ecs_security_group_ids" {
+  description = "Security group IDs created for the ECS tasks."
+  value       = { for k, v in module.ecs_security_group : k => v.security_group_id }
+}
+
+output "ecs_cluster_name" {
+  description = "ECS cluster names."
+  value       = module.ecs.ecs_cluster_name
+}
+
+output "ecs_service_name" {
+  description = "ECS service names."
+  value       = module.ecs.ecs_service_name
+}
+
+output "ecs_task_definition_arn" {
+  description = "ARNs of the ECS task definitions."
+  value       = module.ecs.ecs_task_definition_arn
+}
